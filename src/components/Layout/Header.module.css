@@ -1,0 +1,24 @@
+.header {
+  @apply text-[#fff] fixed top-0 left-0
+  w-[100%] h-[5rem] z-10 bg-sky-400
+  flex justify-between items-center
+  px-[10%] shadow-md shadow-zinc-800;
+}
+
+.header h1 {
+  @apply text-[1.8rem] text-[#fff]
+  font-bold pr-[0.5rem];
+}
+
+.header-img {
+  @apply w-[110%] h-[25rem]
+  overflow-hidden
+  z-0;
+}
+
+.header-img img {
+  height: 100%;
+  width: 110%;
+  object-fit: cover;
+  transform: rotateZ(-5deg) translateY(-4rem) translateX(-1rem);
+}
