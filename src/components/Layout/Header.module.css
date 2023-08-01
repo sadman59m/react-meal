@@ -6,8 +6,8 @@
 }
 
 .header h1 {
-  @apply text-[1.8rem] text-[#fff]
-  font-bold pr-[0.5rem];
+  @apply text-[1.4rem] text-[#fff]
+  font-bold pr-[0.5rem] sm:text-[1.7rem];
 }
 
 .header-img {
