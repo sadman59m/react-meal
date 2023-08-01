@@ -10,13 +10,13 @@
   font-bold pr-[0.5rem] sm:text-[1.7rem];
 }
 
-.header-img {
+.main-image {
   @apply w-[110%] h-[25rem]
   overflow-hidden
   z-0;
 }
 
-.header-img img {
+.main-image img {
   height: 100%;
   width: 110%;
   object-fit: cover;
