@@ -13,7 +13,7 @@ const AvailableMeals = () => {
     const getMeals = async () => {
       setIsLoading(true);
       const response = await fetch(
-        "https://react-http-b9988-default-rtdb.firebaseio.com/meals"
+        "https://react-http-b9988-default-rtdb.firebaseio.com/meals.json"
       );
       if (!response.ok) {
         throw new Error("Something went wrong!");
@@ -51,17 +51,17 @@ const AvailableMeals = () => {
   if (isLoading) {
     content = (
       <section className={classes.content}>
-        <Loading />
+        <Loading content="Loding" />
       </section>
     );
   }
-  // if (error) {
-  //   content = (
-  //     <p className={`${classes.content} ${classes.error}`}>
-  //       Somethig went wrong! Try again later.
-  //     </p>
-  //   );
-  // }
+  if (error) {
+    content = (
+      <p className={`${classes.content} ${classes.error}`}>
+        Somethig went wrong! Try again later.
+      </p>
+    );
+  }
 
   return (
     <section className={classes.meals}>
