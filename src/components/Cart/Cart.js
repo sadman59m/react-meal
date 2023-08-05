@@ -1,41 +1,37 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
+import { cartActions } from "../../store/cart-slice";
 import Modal from "../UI/Modal";
 import CartItem from "./CartItem";
 import classes from "./Cart.module.css";
 import Checkout from "./Checkout";
 import Loading from "../UI/Loading";
-import { cartActions } from "../../store/cart-slice";
 
 const Cart = (props) => {
   // const cartCtx = useContext(CartContext);
   const dispatch = useDispatch();
   const reduxCartItems = useSelector((state) => state.cart.items);
-  const reduxtotalAmount = useSelector((state) => state.cart.totalAmount);
-  reduxtotalAmount.toFixed(2);
+  const reduxtotalAmount = useSelector((state) =>
+    state.cart.totalAmount.toFixed(2)
+  );
   const [isCheckout, setIsCheckout] = useState(false);
   const [orderIsProcessign, setOrderIsProcessing] = useState(false);
   const [orederConfirmed, setOrderConfirmed] = useState(false);
 
-  console.log(reduxCartItems);
-
-  // const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
-  // const hasItems = cartCtx.items.length > 0;
   const hasItems = reduxCartItems.length > 0;
 
   const cartItemRemoveHandler = (id) => {
-    // cartCtx.removeItem(id);
+    dispatch(cartActions.removeItemFromCart(id));
   };
 
   const cartItemAddHandler = (item) => {
-    // cartCtx.addItem({ ...item, amount: 1 });
     const cartItem = {
       ...item,
       amount: 1,
     };
-    console.log(cartItem);
-    // dispatch(cartActions.addItemToCart(cartItem));
+    dispatch(cartActions.addItemToCart(cartItem));
   };
 
   const checkoutHandler = () => {
@@ -47,28 +43,28 @@ const Cart = (props) => {
   };
 
   const orderConfirmHandler = async (userData) => {
-    // console.log(userData);
-    // const orderData = {
-    //   items: cartCtx.items,
-    //   totalAmount: cartCtx.totalAmount,
-    //   user: userData,
-    // };
-    // if (userData && orderData) {
-    //   setOrderIsProcessing(true);
-    //   await fetch(
-    //     "https://react-http-b9988-default-rtdb.firebaseio.com/orders.json",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(orderData),
-    //     }
-    //   );
-    // }
-    // setOrderIsProcessing(false);
-    // setOrderConfirmed(true);
-    // cartCtx.clearItems();
+    console.log(userData);
+    const orderData = {
+      items: reduxCartItems,
+      totalAmount: reduxtotalAmount,
+      user: userData,
+    };
+    if (userData && orderData) {
+      setOrderIsProcessing(true);
+      await fetch(
+        "https://react-http-b9988-default-rtdb.firebaseio.com/orders.json",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
+    }
+    setOrderIsProcessing(false);
+    setOrderConfirmed(true);
+    dispatch(cartActions.resetCart());
   };
 
   const cartItems = (
@@ -87,7 +83,7 @@ const Cart = (props) => {
     </ul>
   );
 
-  const cartActions = (
+  const cartComponentAction = (
     <div className={classes.actions}>
       <button className={classes["button--alt"]} onClick={props.onClose}>
         Close
@@ -113,14 +109,14 @@ const Cart = (props) => {
           onCancel={checkoutCancelHandler}
         />
       )}
-      {!isCheckout && cartActions}
+      {!isCheckout && cartComponentAction}
     </React.Fragment>
   );
 
   const orderProcessingContent = <Loading content="Processing" />;
   const orderComfirmedContent = (
     <React.Fragment>
-      <p>Order Confirmed!</p>
+      <p className={classes.confirm}>Order Confirmed!</p>
       <div className={classes.actions}>
         <button className={classes.button} onClick={props.onClose}>
           Close

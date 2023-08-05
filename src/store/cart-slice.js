@@ -5,30 +5,16 @@ const cartSlice = createSlice({
   initialState: {
     items: [],
     totalAmount: 0,
+    changed: false,
   },
   reducers: {
     replaceCart(state, action) {
-      state.totalQuantity = action.payload.totalQuantity;
+      state.totalAmount = action.payload.totalAmount;
       state.items = action.payload.items;
     },
     addItemToCart(state, action) {
-      //   const newItem = action.payload;
-      //   const existingItem = state.items.find((item) => item.id === newItem.id);
-      //   state.totalQuantity++;
-      //   state.changed = true;
-      //   if (!existingItem) {
-      //     state.items.push({
-      //       id: newItem.id,
-      //       price: newItem.price,
-      //       quantity: 1,
-      //       totalPrice: newItem.price,
-      //       name: newItem.title,
-      //     });
-      //   } else {
-      //     existingItem.quantity++;
-      //     existingItem.totalPrice = existingItem.totalPrice + newItem.price;
-      //   }
       const newItem = action.payload;
+      // state.changed = true;
       const updatedTotalAmount =
         state.totalAmount + newItem.price * newItem.amount;
       const existingCartItemIndex = state.items.findIndex(
@@ -51,19 +37,26 @@ const cartSlice = createSlice({
       return {
         items: updatedItems,
         totalAmount: updatedTotalAmount,
+        changed: true,
       };
     },
     removeItemFromCart(state, action) {
       const id = action.payload;
-      const existingItem = state.items.find((item) => item.id === id);
-      state.totalQuantity--;
       state.changed = true;
-      if (existingItem.quantity === 1) {
+      const existingItem = state.items.find((item) => item.id === id);
+      state.totalAmount = state.totalAmount - existingItem.price;
+      if (state.totalAmount < 0) state.totalAmount = 0;
+      state.changed = true;
+      if (existingItem.amount === 1) {
         state.items = state.items.filter((item) => item.id !== id);
       } else {
-        existingItem.quantity--;
-        existingItem.totalPrice = existingItem.totalPrice - existingItem.price;
+        existingItem.amount--;
       }
+    },
+    resetCart(state) {
+      state.changed = true;
+      state.items = [];
+      state.totalAmount = 0;
     },
   },
 });
