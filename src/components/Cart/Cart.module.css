@@ -45,3 +45,8 @@
   background-color: #8a2b06;
   color: white;
 }
+
+.confirm {
+  color: green;
+  font-weight: bold;
+}

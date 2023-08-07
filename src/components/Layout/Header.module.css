@@ -1,6 +1,6 @@
 .header {
   @apply text-[#fff] fixed top-0 left-0
-  w-[100%] h-[5rem] z-10 bg-sky-400
+  w-[100%] h-[5rem] z-10 bg-[#8a2b06]
   flex justify-between items-center
   px-[10%] shadow-md shadow-zinc-800;
 }
