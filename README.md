@@ -1,5 +1,9 @@
 # react-meal
-Preview: https://react-meal-eta.vercel.app/
+Checkout: https://react-meal-eta.vercel.app/
 
-- An react app with add to cart and remove from cart functionality.
-- Created Using ReactJs and Tailwindcss.
+# A food-ordering app
+- add to cart functionality.
+- synching cart items with Firebase real-time database
+- state management using Redux
+# Stack used
+- ReactJs, Redux, Firebase
